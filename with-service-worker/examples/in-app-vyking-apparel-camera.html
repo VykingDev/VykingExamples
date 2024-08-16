@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>In-app Vyking Apparel Camera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+
+    <script>
+        if (navigator && navigator.serviceWorker) {
+            navigator.serviceWorker.register('../service-worker.js')
+                .then((registration) => {
+                    console.info("Service Worker Registration succeeded.")
+
+                    return registration.update()
+                })
+                .then(() => console.info("Service Worker Update succeeded."))
+                .catch((error) => console.error(`Service Worker Registration failed with ${error}`));
+        }
+    </script>
+
+    <script>
+        self.HTMLVykingApparelElement = self.HTMLVykingApparelElement || {}
+    </script>
+
+    <script type="module" src="https://sneaker-window.vyking.io/vyking-apparel/1/vyking-apparel.js"></script>
+
+    <style>
+        html,
+        body {
+            background-color: black;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        #watermark {
+            color: #d0d0d072;
+            font-size: 100pt;
+            height: 100%;
+            margin: 0;
+            pointer-events: none;
+            position: fixed;
+            transform: rotate(45deg);
+            width: 100%;
+            z-index: 15;
+        }
+
+        #vyking-apparel {
+            border: 0px;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+        }
+
+        vyking-apparel::part(default-share) {
+            bottom: 130px;
+            top: inherit;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="watermark">
+        <p>Demo</p>
+    </div>
+
+    <vyking-apparel id="vyking-apparel" share autocamera onerror="alert(`Error: ${event.message}`)">
+        <canvas slot="canvas">Virtual Try On</canvas>
+    </vyking-apparel>
+</body>
+
+</html>

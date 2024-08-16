@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vyking Apparel Simple Camera</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+
+    <script>
+        if (navigator && navigator.serviceWorker) {
+            navigator.serviceWorker.register('../service-worker.js')
+                .then((registration) => {
+                    console.info("Service Worker Registration succeeded.")
+
+                    return registration.update()
+                })
+                .then(() => console.info("Service Worker Update succeeded."))
+                .catch((error) => console.error(`Service Worker Registration failed with ${error}`));
+        }
+    </script>
+
+    <script type="module" src="https://sneaker-window.vyking.io/vyking-apparel/1/vyking-apparel.js"></script>
+    <script>
+        const isDisabled = () => {
+            if (/android/i.test(navigator.userAgent) || /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                return false
+            }
+
+            return true
+        }
+        self.HTMLVykingApparelElement = self.HTMLVykingApparelElement || {}
+        self.HTMLVykingApparelElement.disabledQRCodeUrl = window.self === window.top ? document.location.href : document.referrer
+        self.HTMLVykingApparelElement.disabledQRCodeCaption = "Use your mobile"
+        self.HTMLVykingApparelElement.isDisabled = isDisabled()
+    </script>
+
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+        }
+
+        vyking-apparel::part(qrcode) {
+            width: 200px;
+        }
+
+        vyking-apparel::part(qrcodeCaption) {
+            margin: 10px;
+        }
+
+        #vyking-apparel-placeholder {
+            background-color: black;
+            height: 100%;
+            left: 0;
+            margin: auto;
+            padding: 0px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+        @media screen and (orientation: portrait) and (min-width: 540px) {
+            #vyking-apparel-placeholder {
+                height: 640px;
+                margin-top: 45px;
+                position: relative;
+                width: 360px;
+            }
+        }
+
+        @media screen and (orientation: landscape) and (min-height: 470px) {
+            #vyking-apparel-placeholder {
+                height: 360px;
+                margin-top: 45px;
+                position: relative;
+                width: 640px;
+            }
+        }
+
+        #vyking-apparel {
+            border: 0px;
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="vyking-apparel-placeholder">
+        <vyking-apparel id="vyking-apparel" share autocamera autocamera-width=640 autocamera-height=360
+            onerror="alert(`Error: ${event.message}`)"
+            poster="https://sneaker-window.vyking.io/vyking-assets/customer/vyking-io/yeezy_boost_700_carbon_blue/shoeIcon.png"
+            apparel="https://sneaker-window.vyking.io/vyking-assets/customer/vyking-io/yeezy_boost_700_carbon_blue/offsets.json"
+            config-key="io.vyking" config="../assets/config/modeld.foot.bin" alt="Virtual Try On">
+            <canvas slot="canvas">Virtual Try On</canvas>
+        </vyking-apparel>
+    </div>
+</body>
+
+</html>

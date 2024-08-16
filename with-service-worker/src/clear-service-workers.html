@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Vyking Clear Service Workers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
+
+    <script>
+        console.log(`Unregister Service Workers`)
+        if (navigator && navigator.serviceWorker) {
+            navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                for (let registration of registrations) {
+                    console.info(`unregister %o`, registration)
+                    registration.unregister()
+                }
+            })
+        }
+    </script>
+</head>
+
+<body>
+</body>
+
+</html>

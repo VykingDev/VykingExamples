@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Model Viewer</title>
+    <meta charset="utf-8">
+    <meta name="description" content="Easily display interactive 3D models on the web and in AR">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script>
+        if (navigator && navigator.serviceWorker) {
+            navigator.serviceWorker.register('../service-worker.js')
+                .then((registration) => {
+                    console.info("Service Worker Registration succeeded.")
+
+                    return registration.update()
+                })
+                .then(() => console.info("Service Worker Update succeeded."))
+                .catch((error) => console.error(`Service Worker Registration failed with ${error}`));
+        }
+    </script>
+
+    <script>
+        self.ModelViewerElement = self.ModelViewerElement || {};
+        self.ModelViewerElement.powerPreference = 'default';
+    </script>
+
+    <script>
+        const isDisabled = () => {
+            if (/android/i.test(navigator.userAgent) || /iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                return false
+            }
+
+            return true
+        }
+
+        self.HTMLVykingApparelElement = self.HTMLVykingApparelElement || {}
+        self.HTMLVykingApparelElement.disabledQRCodeCaption = "Please use your mobile"
+        self.HTMLVykingApparelElement.disabledQRCodeUrl = location.href
+        self.HTMLVykingApparelElement.isDisabled = isDisabled()
+    </script>
+
+    <script type="module" src="https://sneaker-window.vyking.io/vyking-model-viewer/model-viewer.min.js"></script>
+
+    <style>
+        body {
+            background-color: white;
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+
+        model-viewer {
+            background-color: #eee;
+            height: 80%;
+            left: 50%;
+            position: fixed;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+        }
+
+        model-viewer[vto-status="presenting"] {
+            height: 100%;
+            position: fixed;
+            transition: 1s ease-in-out;
+            width: 100%;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <model-viewer ar vto vto-share alt="Yeezy Boost" camera-controls touch-action="pan-y"
+        vyking-src="https://sneaker-window.vyking.io/vyking-assets/customer/vyking-io/yeezy_boost_700_carbon_blue/offsets.json"
+        poster="https://sneaker-window.vyking.io/vyking-assets/customer/vyking-io/yeezy_boost_700_carbon_blue/shoeIcon.png"
+        vto-config="../assets/config/modeld.foot.bin" vto-key="io.vyking" vto-autocamera-width=640
+        vto-autocamera-height=360>
+    </model-viewer>
+</body>
+
+</html>

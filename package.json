@@ -1,0 +1,23 @@
+{
+  "name": "Vyking Examples",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "wizard": "workbox-cli generate:sw",
+    "clean": "rimraf ./dist",
+    "build:with-service-worker:pre": "cd with-service-worker && workbox injectManifest src/workbox-config.js",
+    "build:with-service-worker": "npm run build:with-service-worker:pre && cp -R with-service-worker/assets dist/with-service-worker/assets && cp -R with-service-worker/examples dist/with-service-worker/examples",
+    "build:vanilla": "mkdir dist/vanilla && cp -R vanilla/assets dist/vanilla/assets && cp -R vanilla/examples dist/vanilla/examples",
+    "build": "npm run build:with-service-worker && npm run build:vanilla",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "npm run clean && npm run build && http-server ./dist -S -p 1236 --cors -C ~/Certificates/localhost.dev.cert -K ~/Certificates/localhost.dev.key"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "rimraf": "^5.0.0",
+    "workbox-cli": "^7.1.0"
+  }
+}
